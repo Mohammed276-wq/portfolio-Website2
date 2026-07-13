@@ -48,7 +48,7 @@ export const FloatingNav = ({ navItems, className }) => {
               key={`link-${idx}`}
               href={navItem.link}
               className={cn(
-                'relative rounded-full px-3 py-1.5 text-sm transition-colors',
+                'relative rounded-full px-2.5 py-1.5 text-sm transition-colors sm:px-3',
                 isActive ? 'text-primary' : 'text-neutral-50 hover:text-primary',
               )}
             >
@@ -65,7 +65,7 @@ export const FloatingNav = ({ navItems, className }) => {
         })}
         <a
           href="#contact"
-          className="relative ml-2 rounded-full border border-white/[0.2] px-4 py-2 text-sm font-medium text-white"
+          className="relative ml-2 hidden whitespace-nowrap rounded-full border border-white/[0.2] px-4 py-2 text-sm font-medium text-white sm:block"
         >
           <span>Hire me</span>
           <span className="absolute inset-x-0 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-primary to-transparent" />

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { container, fadeUp, viewportOnce, viewportOnceTight, hoverSpring } from '../lib/animations'
 
 const projects = [
   {
@@ -31,54 +32,38 @@ const projects = [
   },
 ]
 
-const container = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.15 },
-  },
-}
-
-const card = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
-  },
-}
-
 export default function Projects() {
   return (
     <section id="projects" className="mx-auto max-w-6xl px-6 py-24">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.6 }}
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
       >
-        <h2 className="text-3xl font-bold text-white">
+        <motion.h2 variants={fadeUp} className="text-3xl font-bold text-white">
           Featured <span className="text-primary">Projects</span>
-        </h2>
-        <div className="mt-2 h-1 w-16 rounded bg-primary" />
+        </motion.h2>
+        <motion.div variants={fadeUp} className="mt-2 h-1 w-16 rounded bg-primary" />
       </motion.div>
 
       <motion.div
         variants={container}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
+        viewport={viewportOnceTight}
         className="mt-12 grid gap-6 sm:grid-cols-2"
       >
         {projects.map((project) => (
           <motion.article
             key={project.title}
-            variants={card}
+            variants={fadeUp}
             whileHover={{
               scale: 1.03,
               y: -8,
               boxShadow: '0 24px 48px -12px rgba(56, 189, 248, 0.18)',
             }}
-            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+            transition={hoverSpring}
             className="group flex h-full flex-col rounded-2xl border border-white/[0.08] bg-surface p-8 transition-colors hover:border-primary/40"
           >
             <h3 className="text-xl font-semibold text-white transition-colors group-hover:text-primary">

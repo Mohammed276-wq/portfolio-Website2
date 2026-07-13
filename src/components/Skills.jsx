@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { container, fadeUp as item, viewportOnce, viewportOnceTight, hoverSpring } from '../lib/animations'
 
 const skillGroups = [
   {
@@ -15,16 +16,6 @@ const skillGroups = [
   },
 ]
 
-const container = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-}
-
 export default function Skills() {
   return (
     <section id="skills" className="mx-auto max-w-6xl px-6 py-24">
@@ -32,7 +23,7 @@ export default function Skills() {
         variants={container}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-100px' }}
+        viewport={viewportOnce}
       >
         <motion.h2 variants={item} className="text-3xl font-bold text-white">
           My <span className="text-primary">Skills</span>
@@ -44,7 +35,7 @@ export default function Skills() {
         variants={container}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
+        viewport={viewportOnceTight}
         className="mt-12 grid gap-6 md:grid-cols-3"
       >
         {skillGroups.map((group) => (
@@ -52,7 +43,7 @@ export default function Skills() {
             key={group.category}
             variants={item}
             whileHover={{ y: -6 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+            transition={hoverSpring}
             className="rounded-xl border border-white/5 bg-surface p-6 transition-colors hover:border-primary/30"
           >
             <h3 className="text-lg font-semibold text-white">{group.category}</h3>

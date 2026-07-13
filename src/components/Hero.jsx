@@ -6,7 +6,7 @@ import { Typewriter } from './ui/typewriter'
 const roles = ['AI Automation Developer', 'Voice AI Builder', 'Full-Stack Developer']
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 30 },
   visible: (delay) => ({
     opacity: 1,
     y: 0,
@@ -70,7 +70,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={0.3}
-          className="mt-6 flex h-10 items-center justify-center text-2xl font-semibold text-slate-200 sm:h-12 sm:text-3xl"
+          className="mt-6 flex min-h-16 items-center justify-center text-2xl font-semibold text-slate-200 sm:min-h-12 sm:text-3xl"
         >
           <Typewriter phrases={roles} className="text-primary" />
         </motion.div>

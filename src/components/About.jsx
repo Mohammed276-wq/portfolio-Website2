@@ -1,14 +1,5 @@
 import { motion } from 'framer-motion'
-
-const container = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-}
+import { container, fadeUp as item, viewportOnce } from '../lib/animations'
 
 export default function About() {
   return (
@@ -17,7 +8,7 @@ export default function About() {
         variants={container}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-100px' }}
+        viewport={viewportOnce}
       >
         <motion.h2 variants={item} className="text-3xl font-bold text-white">
           About <span className="text-primary">Me</span>

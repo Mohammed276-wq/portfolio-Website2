@@ -1,11 +1,15 @@
+import { lazy, Suspense } from 'react'
+import { MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import About from './components/About'
-import Projects from './components/Projects'
-import Skills from './components/Skills'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
 import { FloatingNav } from './components/ui/floating-navbar'
+
+// Below-the-fold sections are code-split and loaded after the hero paints
+const About = lazy(() => import('./components/About'))
+const Projects = lazy(() => import('./components/Projects'))
+const Skills = lazy(() => import('./components/Skills'))
+const Contact = lazy(() => import('./components/Contact'))
+const Footer = lazy(() => import('./components/Footer'))
 
 const navItems = [
   { name: 'About', link: '#about' },
@@ -16,17 +20,23 @@ const navItems = [
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <FloatingNav navItems={navItems} />
-      <main>
-        <Hero />
-        <About />
-        <Projects />
-        <Skills />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <FloatingNav navItems={navItems} />
+        <main>
+          <Hero />
+          <Suspense fallback={null}>
+            <About />
+            <Projects />
+            <Skills />
+            <Contact />
+          </Suspense>
+        </main>
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
+      </div>
+    </MotionConfig>
   )
 }
