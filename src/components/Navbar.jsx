@@ -1,17 +1,22 @@
 import { useState } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { cn } from '../lib/utils'
+import { useActiveSection } from '../hooks/useActiveSection'
 
 const links = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '#about', id: 'about' },
+  { label: 'Projects', href: '#projects', id: 'projects' },
+  { label: 'Skills', href: '#skills', id: 'skills' },
+  { label: 'Contact', href: '#contact', id: 'contact' },
 ]
+
+const sectionIds = ['home', 'about', 'projects', 'skills', 'contact']
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [atTop, setAtTop] = useState(true)
   const { scrollY } = useScroll()
+  const active = useActiveSection(sectionIds)
 
   // Fade out once scrolled; the FloatingNav takes over on scroll-up
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -37,9 +42,19 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm font-medium text-muted transition-colors hover:text-primary"
+                className={cn(
+                  'relative pb-1 text-sm font-medium transition-colors hover:text-primary',
+                  active === link.id ? 'text-primary' : 'text-muted',
+                )}
               >
                 {link.label}
+                {active === link.id && (
+                  <motion.span
+                    layoutId="navbar-active"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    className="absolute inset-x-0 -bottom-0.5 h-0.5 rounded-full bg-primary"
+                  />
+                )}
               </a>
             </li>
           ))}
@@ -71,7 +86,10 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="text-sm font-medium text-muted transition-colors hover:text-primary"
+                className={cn(
+                  'text-sm font-medium transition-colors hover:text-primary',
+                  active === link.id ? 'text-primary' : 'text-muted',
+                )}
               >
                 {link.label}
               </a>

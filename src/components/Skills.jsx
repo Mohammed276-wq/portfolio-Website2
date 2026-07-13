@@ -15,30 +15,45 @@ const skillGroups = [
   },
 ]
 
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+}
+
 export default function Skills() {
   return (
     <section id="skills" className="mx-auto max-w-6xl px-6 py-24">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.6 }}
       >
-        <h2 className="text-3xl font-bold text-white">
+        <motion.h2 variants={item} className="text-3xl font-bold text-white">
           My <span className="text-primary">Skills</span>
-        </h2>
-        <div className="mt-2 h-1 w-16 rounded bg-primary" />
+        </motion.h2>
+        <motion.div variants={item} className="mt-2 h-1 w-16 rounded bg-primary" />
       </motion.div>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {skillGroups.map((group, i) => (
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-80px' }}
+        className="mt-12 grid gap-6 md:grid-cols-3"
+      >
+        {skillGroups.map((group) => (
           <motion.div
             key={group.category}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="rounded-xl border border-white/5 bg-surface p-6"
+            variants={item}
+            whileHover={{ y: -6 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+            className="rounded-xl border border-white/5 bg-surface p-6 transition-colors hover:border-primary/30"
           >
             <h3 className="text-lg font-semibold text-white">{group.category}</h3>
             <ul className="mt-4 space-y-2">
@@ -51,7 +66,7 @@ export default function Skills() {
             </ul>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
