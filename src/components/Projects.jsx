@@ -1,29 +1,51 @@
 import { motion } from 'framer-motion'
-import { HoverEffect } from './ui/card-hover-effect'
 
 const projects = [
   {
-    title: 'AI Workflow Automation',
+    title: 'AI Voice Receptionist',
     description:
-      'Automation pipelines that connect LLMs with business tools to handle repetitive tasks end-to-end.',
-    tags: ['AI', 'Automation', 'APIs'],
-    link: '#projects',
+      'An AI-powered phone receptionist that answers calls in a natural, human-like voice — greeting callers, booking appointments, and routing inquiries around the clock.',
+    tags: ['Voice AI', 'Automation', 'Telephony'],
+    link: '#',
   },
   {
-    title: 'Modern Web Application',
+    title: 'Wise Listener',
     description:
-      'A responsive, performant single-page application built with React and a modern tooling stack.',
-    tags: ['React', 'Vite', 'Tailwind CSS'],
-    link: '#projects',
+      'A voice-first AI companion that listens attentively, understands context, and responds with thoughtful, personalized guidance in real time.',
+    tags: ['Voice AI', 'LLM', 'Conversational'],
+    link: '#',
   },
   {
-    title: 'Intelligent Chat Assistant',
+    title: 'FAQ Chatbot',
     description:
-      'A custom AI assistant integrated into a web interface for real-time, context-aware support.',
-    tags: ['LLM', 'Chatbot', 'Integration'],
-    link: '#projects',
+      'A custom-trained chatbot that instantly answers customer questions from a business’s own knowledge base — accurate, on-brand, and available 24/7.',
+    tags: ['Chatbot', 'RAG', 'Integration'],
+    link: '#',
+  },
+  {
+    title: 'Bilingual CV Builder',
+    description:
+      'A web app that turns a single form into a polished, professional CV in both Arabic and English, with RTL-aware layouts and instant PDF export.',
+    tags: ['React', 'i18n', 'PDF'],
+    link: '#',
   },
 ]
+
+const container = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15 },
+  },
+}
+
+const card = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut' },
+  },
+}
 
 export default function Projects() {
   return (
@@ -41,12 +63,54 @@ export default function Projects() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-50px' }}
-        transition={{ duration: 0.6, delay: 0.1 }}
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-80px' }}
+        className="mt-12 grid gap-6 sm:grid-cols-2"
       >
-        <HoverEffect items={projects} className="mt-6" />
+        {projects.map((project) => (
+          <motion.article
+            key={project.title}
+            variants={card}
+            whileHover={{
+              scale: 1.03,
+              y: -8,
+              boxShadow: '0 24px 48px -12px rgba(56, 189, 248, 0.18)',
+            }}
+            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+            className="group flex h-full flex-col rounded-2xl border border-white/[0.08] bg-surface p-8 transition-colors hover:border-primary/40"
+          >
+            <h3 className="text-xl font-semibold text-white transition-colors group-hover:text-primary">
+              {project.title}
+            </h3>
+
+            <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
+              {project.description}
+            </p>
+
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <li
+                  key={tag}
+                  className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={project.link}
+              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary"
+            >
+              View Project
+              <span className="transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
+            </a>
+          </motion.article>
+        ))}
       </motion.div>
     </section>
   )
