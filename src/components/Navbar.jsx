@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 
 const links = [
   { label: 'About', href: '#about' },
@@ -10,12 +10,20 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [atTop, setAtTop] = useState(true)
+  const { scrollY } = useScroll()
+
+  // Fade out once scrolled; the FloatingNav takes over on scroll-up
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    setAtTop(latest < 120)
+  })
 
   return (
     <motion.header
       initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      animate={{ y: atTop ? 0 : -40, opacity: atTop ? 1 : 0 }}
+      transition={{ duration: 0.3 }}
+      style={{ pointerEvents: atTop ? 'auto' : 'none' }}
       className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-md"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
